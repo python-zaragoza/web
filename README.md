@@ -1,63 +1,76 @@
-# Python Zaragoza --- Comunidad Python Zaragoza
+# Python Zaragoza — Community website
 
-Sitio web oficial de la comunidad **Python Zaragoza** creado con
-[Reflex](https://reflex.dev/) y gestionado con
+Official website of the **Python Zaragoza** community built with
+[Reflex](https://reflex.dev/) and managed with
 [uv](https://docs.astral.sh/uv/).
 
-![Logo PyZgz](assets/logo.png)
+![PyZgz Logo](assets/logo.png)
 
-## 🚀 Qué es Python Zaragoza
+## 🚀 What is Python Zaragoza?
 
-Python Zaragoza es una comunidad local de personas interesadas en **Python** en
-Zaragoza. Organizamos:
+Python Zaragoza is a local community of people interested in **Python** in Zaragoza. We organize:
 
-- 📅 **Meetups**: charlas y networking.\
-- 🛠️ **Talleres**: sesiones prácticas para todos los niveles.\
-- 🤝 **Proyectos**: iniciativas abiertas y colaborativas.
+- 📅 **Meetups**: talks and networking.
+- 🛠️ **Workshops**: hands-on sessions for all levels.
+- 🤝 **Projects**: open and collaborative initiatives.
 
-Nuestro objetivo es fomentar el uso y aprendizaje de Python en un
-ambiente abierto y amigable.
+Our goal is to promote the use and learning of Python in an open and friendly environment.
 
 ------------------------------------------------------------------------
 
-## 📂 Estructura del proyecto
+## 📂 Project structure
 
-    pyzgz/
-      ├── pyzgz/           # Código de la aplicación Reflex
-      │   ├── pyzgz.py     # Definición de páginas y layouts
-      │   └── __init__.py
-      ├── assets/          # Imágenes y recursos estáticos (logo, favicon…)
-      ├── data/            # Archivos de datos (cfp.json, contactos…)
-      ├── rxconfig.py      # Configuración de Reflex
-      ├── pyproject.toml   # Dependencias y metadatos
+    .
+      ├── assets/          # Static assets (logo, favicon, generated data)
+      ├── pyzgz/           # Reflex application code
+      │   ├── main.py      # App entry point (App & routes)
+      │   ├── layout.py    # Shared layout (nav, footer, page_wrapper, styles)
+      │   ├── index_page.py
+      │   ├── events_page.py
+      │   ├── blog_page.py
+      │   ├── comunity_page.py
+      │   ├── talks_page.py
+      │   ├── about_page.py
+      │   └── contact_page.py
+      ├── rxconfig.py      # Reflex configuration
+      ├── pyproject.toml   # Dependencies and metadata (Python >=3.11)
+      ├── uv.lock          # Locked dependencies (uv)
       └── README.md
 
+Note: the site is prepared for static deployment on GitHub Pages.
+
 ------------------------------------------------------------------------
 
-## 🛠️ Desarrollo local
+## 🛠️ Local development
 
-1. **Clona el repositorio:**
+0. **Prerequisites:**
+
+    - Python 3.11 or newer.
+    - uv installed. See <https://docs.astral.sh/uv/getting-started/installation/> (e.g., `pipx install uv`).
+
+1. **Clone the repository and go to `web/`:**
 
     ``` bash
-    git clone https://github.com/tuusuario/pyzgz.git
-    cd pyzgz
+    git clone <url_del_repo>
+    cd <repo>
+    cd web
     ```
 
-2. **Instala dependencias con uv:**
+2. **Install dependencies with uv:**
 
     ``` bash
     uv sync
     ```
 
-3. **Arranca el servidor:**
+3. **Start the dev server:**
 
     ``` bash
     uvx reflex run
     ```
 
-    Luego abre <http://localhost:3000>.
+    Then open <http://localhost:3000>.
 
-4. **Limpieza de caché (si hay errores raros de HMR):**
+4. **Cache cleanup (if HMR behaves oddly):**
 
     ``` bash
     rm -rf .web
@@ -65,58 +78,64 @@ ambiente abierto y amigable.
 
 ------------------------------------------------------------------------
 
-## 🌐 Despliegue
+## 🌐 Deployment
 
-### GitHub Pages (estático)
+### GitHub Pages (static)
 
-1. Genera el build:
+1. Build the site:
 
     ``` bash
     uvx reflex export --frontend-only
     ```
 
-    Esto crea un directorio `./.web/_static` con los archivos listos
-    para publicar.
+    This creates a `./.web/_static` directory with files ready to publish.
 
-2. Configura un workflow de GitHub Actions para que:
+2. Configure a GitHub Actions workflow to:
 
-    - Ejecute `reflex export --frontend-only`.
-    - Publique `./.web/_static` en GitHub Pages.
+    - Run `uvx reflex export --frontend-only`.
+    - Publish `./.web/_static` to GitHub Pages.
 
-*(el archivo `.github/workflows/deploy.yml` ya está preparado en este
-repo).*
+Tip: create a workflow that builds on every push to `main` and uploads `./.web/_static` as a Pages artifact.
 
 ------------------------------------------------------------------------
 
-## 📬 Formularios
+## 📬 Contact and Talks
 
-- **Charlas (CFP):** los formularios se guardan en `data/cfp.json` en
-    modo servidor.\
+- **Propose a talk (CFP):** send your proposal to `zaragoza@es.python.org`.
+  Include title, abstract, approximate duration and level.
+- **General contact:** `zaragoza@es.python.org`.
 
-- **Contacto**
+### Talks form (Google Forms)
 
-------------------------------------------------------------------------
+The `Charlas` page links to a **Google Form**:
 
-## ⚙️ Configuración
-
-Variables de entorno principales:
-
-``` bash
-# Base de datos (si usas SQLite o Postgres con sqlmodel)
-DATABASE_URL=sqlite:///pyzgz.db
-
-# Meetup (solo si usas API desde backend)
-MEETUP_GROUP=python-zaragoza
-MEETUP_TOKEN=<tu_token_oauth2>
-
-```
-
-Guárdalas en `.env` (usa
-[python-dotenv](https://pypi.org/project/python-dotenv/)).
+- Current link: `https://forms.gle/qvMCiq8GkyCty79N8` (configurable in `pyzgz/talks_page.py`, constant `GOOGLE_FORM_URL`).
+- Alternatively, email us at `zaragoza@es.python.org`.
 
 ------------------------------------------------------------------------
 
-## 📜 Licencia
+## ⚙️ Configuration
+
+For static deployment on GitHub Pages **no environment variables are required**.
+If backend/APIs get integrated in the future, they will be documented here.
+
+### Meetup events
+
+- **Group**: `python_zgz`.
+- **Without token**: the build uses the public iCal feed and generates `assets/events.json` with upcoming events only.
+- **With token (optional)**: add a `MEETUP_TOKEN` secret in the repo so the workflow also fetches past events via the API.
+- **Workflow**: `.github/workflows/pages.yml` runs `scripts/fetch_meetup.py` before `reflex export`.
+- **Local test**:
+  ```bash
+  # Generate events.json (without token uses iCal)
+  uv run python scripts/fetch_meetup.py
+  # Run the site
+  uvx reflex run
+  ```
+
+------------------------------------------------------------------------
+
+## 📜 License
 
 [MIT](LICENSE)
 
@@ -124,21 +143,41 @@ Guárdalas en `.env` (usa
 
 ## 🗺️ Roadmap
 
-- [x] **Estructura inicial de páginas**: home, comunity, about,
-    contact, blog, events, talks(CFP).\
-- [ ] **Mensajes de estado persistentes**: mejorar UX al navegar entre
-    páginas.\
-- [ ] **Obtener eventos de Meetup**:
-  - Server: consumir API GraphQL con `MEETUP_TOKEN`.\
-  - Static: preconstruir `assets/events.json` en GitHub Actions.\
-- [ ] **SEO y accesibilidad**: meta tags, OpenGraph, manifest,
-    favicon.\
-- [ ] **Diseño visual mejorado**: tema claro/oscuro, estilos propios.\
-- [ ] **Automatizar despliegue** en GitHub Pages con workflow
-    estable.\
-- [ ] **Traducción opcional** al inglés.
+- [x] **Initial pages structure**: home, community, about, contact, blog, events, talks (CFP).
+- [ ] **Persistent status messages**: better UX when navigating between pages.
+- [ ] **Fetch Meetups**:
+  - Server: consume API with `MEETUP_TOKEN`.
+  - Static: prebuild `assets/events.json` in GitHub Actions.
+- [ ] **SEO & accessibility**: meta tags, OpenGraph, manifest, favicon.
+- [ ] **Visual design improvements**: light/dark theme, custom styles.
+- [ ] **Automated deployment** on GitHub Pages with a stable workflow.
+- [ ] **Optional** English/Spanish i18n.
 
 ------------------------------------------------------------------------
 
 **Made with ❤️ in Zaragoza.**
 
+------------------------------------------------------------------------
+
+## 🤝 Contributing
+
+- **Dev dependencies** are declared under the `dev` group in `pyproject.toml` (ruff, black, pre-commit, pytest).
+- **Setup**:
+  ```bash
+  uv sync --group dev
+  uv run pre-commit install
+  ```
+- **Run linters/formatters manually**:
+  ```bash
+  uv run ruff check --fix .
+  uv run ruff format .
+  uv run black .
+  ```
+- **Run hooks on all files**:
+  ```bash
+  uv run pre-commit run --all-files
+  ```
+- **Tests** (placeholder):
+  ```bash
+  uv run pytest -q
+  ```
