@@ -42,8 +42,23 @@ jobs:
       - name: Build static site (Reflex export frontend-only)
         run: uvx reflex export --frontend-only
 
-      - name: Extract frontend files
-        run: unzip frontend.zip -d frontend_build
+      - name: Debug export outputs
+        run: |
+          echo "PWD: $(pwd)"
+          ls -la
+          find . -maxdepth 3 -type f -name "*.zip" -print
+
+      - name: Extract frontend files (zip -> docs)
+        run: |
+          set -e
+          mkdir -p docs
+          ZIP="$(find . -maxdepth 3 -type f -name '*.zip' | head -n 1)"
+          echo "Using zip: $ZIP"
+          unzip -o "$ZIP" -d /docs
+          echo "docs contents:"
+          ls -la docs
+          # Pages needs index.html at root from artifact
+          test -f docs/index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
