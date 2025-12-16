@@ -42,10 +42,13 @@ jobs:
       - name: Build static site (Reflex export frontend-only)
         run: uvx reflex export --frontend-only
 
+      - name: Extract frontend files
+        run: unzip frontend.zip -d frontend_build
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./.web/_static
+          path: frontend_build
 
   deploy:
     environment:
