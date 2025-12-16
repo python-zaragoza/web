@@ -50,7 +50,7 @@ def nav():
             rx.hstack(
                 rx.link("Eventos", href="/events"),
                 rx.link("Blog", href="/blog"),
-                rx.link("Comunidad", href="/comunity"),
+                # rx.link("Comunidad", href="/comunity"),
                 rx.link("Charlas", href="/talks"),
                 rx.link("Sobre", href="/about"),
                 rx.link("Contacto", href="/contact"),
@@ -65,7 +65,7 @@ def nav():
                     rx.menu.content(
                         rx.menu.item("Eventos", on_click=[rx.redirect("/events")]),
                         rx.menu.item("Blog", on_click=[rx.redirect("/blog")]),
-                        rx.menu.item("Comunidad", on_click=[rx.redirect("/comunity")]),
+                        # rx.menu.item("Comunidad", on_click=[rx.redirect("/comunity")]),
                         rx.menu.item("Charlas", on_click=[rx.redirect("/talks")]),
                         rx.menu.item("Sobre", on_click=[rx.redirect("/about")]),
                         rx.menu.item("Contacto", on_click=[rx.redirect("/contact")]),
