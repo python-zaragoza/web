@@ -54,7 +54,7 @@ jobs:
           mkdir -p docs
           ZIP="$(find . -maxdepth 3 -type f -name '*.zip' | head -n 1)"
           echo "Using zip: $ZIP"
-          unzip -o "$ZIP" -d /docs
+          unzip -o "$ZIP" -d docs
           echo "docs contents:"
           ls -la docs
           # Pages needs index.html at root from artifact
